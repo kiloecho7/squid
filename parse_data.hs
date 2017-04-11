@@ -161,6 +161,23 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 
 
 -- k. next little baby step
+-- encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
+-- encode [] [] = []
+-- encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
+
+
+
+
+-- but it can only handle one row in the list of rows
 encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
 encode [] [] = []
 encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
+encode [row:rows] _ = encoderow row : encoderows rows    ---------   my thoughts for now (doesn't seem right but it's a starting point) ----- we'll pick up here tomorrow
+
+
+-- for this input
+-- let row1 = (110, 210, "Left")
+-- let row2 = (120, 220, "Middle")
+--             vvv
+-- i need this output
+-- [(110, 210, ...), (120, 220, "Middle")]
