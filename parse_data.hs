@@ -90,14 +90,44 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 
 
 -- ok. let's do recursion now. let's reverse a list.
-myreverse :: [a] -> [a]
-myreverse [] = []
-myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
+-- myreverse :: [a] -> [a]
+-- myreverse [] = []
+-- myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
 --myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see. -- Argg!
 --myreverse x:[xs] = (myreverse [xs]) : x    -- dang it. k, let's look at the book.
 -------- parens on the pattern??
 --myreverse (x:[xs]) = (myreverse [xs]) : x      -- wow. that blew up.
 --myreverse (x:xs) = (myreverse xs) : x          -- that blew up too. ok. more book.
 ------ Ah!! It's because : is to prepend one item to a list. We need ++ here! Dang it! Disclosure: i kept looking through examples in the book and the one that finally had all the parts i needed for this promblem... the reverse example  :\
-myreverse (x:xs) = (myreverse xs) ++ [x]            -- and both sides have to be lists
+-- myreverse (x:xs) = (myreverse xs) ++ [x]            -- and both sides have to be lists
 -- ok. that works... what now...
+
+
+
+
+
+
+myreverse :: [a] -> [a]
+myreverse [] = []
+myreverse [x] = [x]
+myreverse (x:xs) = (myreverse xs) ++ [x]
+
+
+
+
+{-
+                                index with categoricals
+              "row"                      "key"
+          [100, 200, left]     (2, [left, middle, Right])  ->  [100, 200, 1, 0, 0]
+encode ::    [String] ->           [(int, [String])]       ->  [String]
+-}
+
+-- A summary of the problem
+--    Take element n. find out which of the categoricals it is. get the encoding of that categorical. concat it to that row.
+
+-- side note: started thinking about whether I should write tests here. Took a minute to read up on whether unit tests are used in Haskell.
+--            I won't be writing tests for this thought (possibly later but not now). I need to understand the problem all the way first. I don't have a complete picture of the whole problem yet.
+--
+-- Question I still have about the complete picture
+--    In the "row" argument, can the elements be in different places? Let's assume no for now to keep it simple.
+--    Will the categoricals in the "key" argument be passed in as a new data type that we've defined or as an actual list like they're shown above. again, keep it simple for now, no custom data type, just pass them in like that every time.
