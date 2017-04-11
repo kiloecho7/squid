@@ -80,4 +80,7 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 
 --- ok. let's simplify it more.  baby steps.
 
-doubleMe x = x + x                  -----  alright. that's pretty much the begining.
+--doubleMe x = x + x             -- alright. that's pretty much the begining.
+                                 -- look at that! it compiles!
+                                 -- but it doesn't work if a pass in a String. OK, the string concat operator is ++.
+--doubleMe x = x ++ x            -- but this one does.
