@@ -42,6 +42,23 @@ flatten x:xs =
 
 
 
-
+{-
 flatten xs = foldl (+) xs         --fold left is the one that is safe for infiite lists? (doesn't apply here. just taking advantage of an opportunity to show off something i know.)
                                   -- i'm spending too much time trying to remember things. no more. going to the book/docs as much as i need to.
+-}
+
+
+
+
+-- an example from the book
+-- maximum' :: (Ord a) => [a] -> a
+-- maximum' [] = error "maximum of empty list!"
+-- maximum' [x] = x
+-- maximum' (x:xs) = max x (maximum' xs)
+
+
+-- going back to hard coded list. i can do this one. then we'll change to a fold
+flatten :: [a] -> a                                -- not concerned about putting a type on it right now. concerned about getting some feedback right now.
+flatten  [] = "Bleh"
+flatten  [x] = x
+flatten  (x:xs) = x + " -- " + flatten xs
