@@ -58,10 +58,10 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 
 
 -- going back to hard coded list. i can do this one. then we'll change to a fold
-flatten :: (String a) [a] -> [a]                                -- not concerned about putting a type on it right now. concerned about getting some feedback right now.
-flatten  [] = "Bleh"
-flatten  [x] = x
-flatten  (x:xs) = x + " -- " + flatten xs
+-- flatten :: (String a) [a] -> [a]                                -- not concerned about putting a type on it right now. concerned about getting some feedback right now.
+-- flatten  [] = "Bleh"
+-- flatten  [x] = x
+-- flatten  (x:xs) = x + " -- " + flatten xs
 --- doesn't work. tried a few thing. I don't understand the error message. --   • Expecting two fewer arguments to ‘String’
 --                                                                                Expected kind ‘* -> * -> *’, but ‘String’ has kind ‘*’
 
@@ -71,3 +71,13 @@ flatten  (x:xs) = x + " -- " + flatten xs
 
 
 ------------ it's been a while. I can't find one. No happy. Frustrated. Way harder than I thought. But like the time I tried a real problem in codewars.
+
+
+
+
+
+
+
+--- ok. let's simplify it more.  baby steps.
+
+doubleMe x = x + x                  -----  alright. that's pretty much the begining.
