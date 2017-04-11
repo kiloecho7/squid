@@ -153,11 +153,14 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 ------------- it doesn't. back to simple.
 
 
-encode :: (Num a, Num x) => [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
-encode _ _ = [(100, 200, 1, 0, 0)]
+-- encode :: (Num a, Num x) => [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
+-- encode _ _ = [(100, 200, 1, 0, 0)]
 
 -- ok. this compiles, but i don't like how I had to add the type classes
-
-
-
 --- holy ....! It runs too!
+
+
+-- k. next little baby step
+encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
+encode [] [] = []
+encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
