@@ -94,4 +94,4 @@ myreverse :: [a] -> [a]
 myreverse [] = []
 myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
 --myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see. -- Argg!
-myreverse x:[xs] = myreverse [xs]:x        -- that's it, right?
+myreverse x:[xs] = (myreverse [xs]) : x    -- dang it. k, let's look at the book.
