@@ -92,4 +92,5 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 -- ok. let's do recursion now. let's reverse a list.
 myreverse :: [a] -> [a]
 myreverse [] = []
-myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right.
+myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
+myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see.
