@@ -93,4 +93,5 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 myreverse :: [a] -> [a]
 myreverse [] = []
 myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
-myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see.
+--myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see. -- Argg!
+myreverse x:[xs] = myreverse [xs]:x        -- that's it, right?
