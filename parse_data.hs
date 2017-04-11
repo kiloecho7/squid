@@ -157,3 +157,7 @@ encode :: (Num a, Num x) => [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, 
 encode _ _ = [(100, 200, 1, 0, 0)]
 
 -- ok. this compiles, but i don't like how I had to add the type classes
+
+
+
+--- holy ....! It runs too!
