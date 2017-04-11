@@ -138,9 +138,9 @@ myreverse [x] = [x]
 myreverse (x:xs) = (myreverse xs) ++ [x]
 
 
---           row                 key                   result
-encode :: [a, a , b]   ->   (n, [s, s, s])   ->   [a, a, x, x, x]
-encode _, _ = [100, 200, 1, 0, 0]
+-- --           row                 key                   result
+-- encode :: [a, a , b]   ->   (n, [s, s, s])   ->   [a, a, x, x, x]
+-- encode _ _ = [100, 200, 1, 0, 0]
 
 -- a: it looks like their ints but let's not assume that. It looks like we can assume they are the same type.
 -- b: definitely not the same type as the first two elements in the row. I think we can make that a string for now.
@@ -150,3 +150,4 @@ encode _, _ = [100, 200, 1, 0, 0]
 -- x: probably ints but let's not assume that.
 
 ------------- ok. let's see if that will compile.
+------------- it doesn't. back to simple.
