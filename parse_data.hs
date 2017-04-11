@@ -99,3 +99,5 @@ myreverse [x] = [x]           -- let's go ahead and stop here and see if what we
 --myreverse (x:[xs]) = (myreverse [xs]) : x      -- wow. that blew up.
 --myreverse (x:xs) = (myreverse xs) : x          -- that blew up too. ok. more book.
 ------ Ah!! It's because : is to prepend one item to a list. We need ++ here! Dang it! Disclosure: i kept looking through examples in the book and the one that finally had all the parts i needed for this promblem... the reverse example  :\
+myreverse (x:xs) = (myreverse xs) ++ [x]            -- and both sides have to be lists
+-- ok. that works... what now...
