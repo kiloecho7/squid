@@ -107,12 +107,6 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
 
 
 
-myreverse :: [a] -> [a]
-myreverse [] = []
-myreverse [x] = [x]
-myreverse (x:xs) = (myreverse xs) ++ [x]
-
-
 
 
 {-
@@ -131,3 +125,28 @@ encode ::    [String] ->           [(int, [String])]       ->  [String]
 -- Question I still have about the complete picture
 --    In the "row" argument, can the elements be in different places? Let's assume no for now to keep it simple.
 --    Will the categoricals in the "key" argument be passed in as a new data type that we've defined or as an actual list like they're shown above. again, keep it simple for now, no custom data type, just pass them in like that every time.
+--    How do we know what the "index" in "key" is? I guess we'll just assume it's always 2 in this problem.
+
+
+
+
+
+
+myreverse :: [a] -> [a]
+myreverse [] = []
+myreverse [x] = [x]
+myreverse (x:xs) = (myreverse xs) ++ [x]
+
+
+--           row                 key                   result
+encode :: [a, a , b]   ->   (n, [s, s, s])   ->   [a, a, x, x, x]
+encode _, _ = [100, 200, 1, 0, 0]
+
+-- a: it looks like their ints but let's not assume that. It looks like we can assume they are the same type.
+-- b: definitely not the same type as the first two elements in the row. I think we can make that a string for now.
+-- n: probably also an int. we know it's an index for row so, yes, it's an int.
+-- s: I keep wondering if defining a data type for this will make it easier right now and if by using strings and being verbose like this it will make it harder to get this first solution running.
+-- a: these are the same guys that came in in row so we're just passing them along.
+-- x: probably ints but let's not assume that.
+
+------------- ok. let's see if that will compile.
