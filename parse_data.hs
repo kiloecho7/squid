@@ -9,4 +9,5 @@ encode ::    [String] ->           [(int, [String])]       ->  [String]
 -}
 
 
-doubleMe x = x + x
+--this was just as a reminder on the function syntax
+--doubleMe x = x + x
