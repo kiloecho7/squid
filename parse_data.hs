@@ -84,3 +84,12 @@ flatten xs = foldl (+) xs         --fold left is the one that is safe for infiit
                                  -- look at that! it compiles!
                                  -- but it doesn't work if a pass in a String. OK, the string concat operator is ++.
 --doubleMe x = x ++ x            -- but this one does.
+
+
+
+
+
+-- ok. let's do recursion now. let's reverse a list.
+myreverse :: [a] -> [a]
+myreverse [] = []
+myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right.
