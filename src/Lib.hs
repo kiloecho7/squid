@@ -1,3 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+
+module Lib
+    ( encodeDataset
+    , encodeRow
+    ) where
+
+import qualified Data.Map.Strict as M
+
 --Cat = Left | Middle | Right
 
 
@@ -169,10 +178,23 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 
 
 -- but it can only handle one row in the list of rows
-encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
-encode [] [] = []
-encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
-encode [row:rows] _ = encoderow row : encoderows rows    ---------   my thoughts for now (doesn't seem right but it's a starting point) ----- we'll pick up here tomorrow
+-- encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
+-- encode [] [] = []
+-- encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
+-- encode [row:rows] _ = encoderow row : encoderows rows    ---------   my thoughts for now (doesn't seem right but it's a starting point) ----- we'll pick up here tomorrow
+
+encodeDataset :: [[String]] -> M.Map Int [String] -> [[String]]
+encodeDataset dataset encodings = map (encodeRow encodings) dataset
+
+encodeRow :: M.Map Int [String] -- This is the same as [(Int, [String])] except it is easier to work with
+          -> [String]           -- input row
+          -> [String]           -- output row with encoded categoricals
+encodeRow encodings row = 
+  let indexedRow = zip [0..] row -- hint add an index to each element so you know what index you are on when you map over it
+  in go indexedRow encodings []
+  where
+    go :: undefined
+    go = undefined
 
 
 -- for this input
