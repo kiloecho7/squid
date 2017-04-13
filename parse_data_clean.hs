@@ -8,114 +8,6 @@
 encode ::    [String] ->           [(int, [String])]       ->  [String]
 -}
 
-
---this was just as a reminder on the function syntax
---doubleMe x = x + x
-
-
-
-
-
---------------- ok. let's start with something simple. let's just see if we can parse the first part, what i've termed "a row". Actually,
---------------- I belive that's supposed to be a list of lists of Strings, [[String]], so let's do that.
-
-
-
-
------ so if we take the function syntax example of "doubleMe"...
------ I need more. I'm not sure if I need to specify that we're.... yea, I think I need to specify that it's a list (or lists) coming in. Sucks, because it's hardcoding the type... I think.... do we have to specify it? I don't think that's how it's done when we do the x:xs pattern. OK, let's try it without first.
-
---flatten xs = bah!! I can't even get past this. arg!! To the book....
-
-
---(ok. huge gap in time there. I bought the Learn You a Haskell book. It's about time. I've been thinking I should for a while now.)
-
-
-{-
---ok. let's give this a whack.
-flatten xs
-flatten [] = "What!?"
-flatten []:x = x       -----    i think this will fail. i have "xs" in the function definition but not x.
-flatten x:xs =
--}
--------- no. this is confining it to a list. we can do this with a fold.
-
-
-
-{-
-flatten xs = foldl (+) xs         --fold left is the one that is safe for infiite lists? (doesn't apply here. just taking advantage of an opportunity to show off something i know.)
-                                  -- i'm spending too much time trying to remember things. no more. going to the book/docs as much as i need to.
--}
-
-
-
-
--- an example from the book
--- maximum' :: (Ord a) => [a] -> a
--- maximum' [] = error "maximum of empty list!"
--- maximum' [x] = x
--- maximum' (x:xs) = max x (maximum' xs)
-
-
--- going back to hard coded list. i can do this one. then we'll change to a fold
--- flatten :: (String a) [a] -> [a]                                -- not concerned about putting a type on it right now. concerned about getting some feedback right now.
--- flatten  [] = "Bleh"
--- flatten  [x] = x
--- flatten  (x:xs) = x + " -- " + flatten xs
---- doesn't work. tried a few thing. I don't understand the error message. --   • Expecting two fewer arguments to ‘String’
---                                                                                Expected kind ‘* -> * -> *’, but ‘String’ has kind ‘*’
-
-
--- going  back further in the book for an example that has lists of Strings.
-
-
-
------------- it's been a while. I can't find one. No happy. Frustrated. Way harder than I thought. But like the time I tried a real problem in codewars.
-
-
-
-
-
-
-
---- ok. let's simplify it more.  baby steps.
-
---doubleMe x = x + x             -- alright. that's pretty much the begining.
-                                 -- look at that! it compiles!
-                                 -- but it doesn't work if a pass in a String. OK, the string concat operator is ++.
---doubleMe x = x ++ x            -- but this one does.
-
-
-
-
-
--- ok. let's do recursion now. let's reverse a list.
--- myreverse :: [a] -> [a]
--- myreverse [] = []
--- myreverse [x] = [x]           -- let's go ahead and stop here and see if what we have so far is right. -- it is :) ok. less frustration, more happiness.
---myreverse x:xs = myreverse [xs]:x        -- that looks right. let's see. -- Argg!
---myreverse x:[xs] = (myreverse [xs]) : x    -- dang it. k, let's look at the book.
--------- parens on the pattern??
---myreverse (x:[xs]) = (myreverse [xs]) : x      -- wow. that blew up.
---myreverse (x:xs) = (myreverse xs) : x          -- that blew up too. ok. more book.
------- Ah!! It's because : is to prepend one item to a list. We need ++ here! Dang it! Disclosure: i kept looking through examples in the book and the one that finally had all the parts i needed for this promblem... the reverse example  :\
--- myreverse (x:xs) = (myreverse xs) ++ [x]            -- and both sides have to be lists
--- ok. that works... what now...
-
-
-
-
-
-
-
-
-{-
-                                index with categoricals
-              "row"                      "key"
-          [100, 200, left]     (2, [left, middle, Right])  ->  [100, 200, 1, 0, 0]
-encode ::    [String] ->           [(int, [String])]       ->  [String]
--}
-
 -- A summary of the problem
 --    Take element n. find out which of the categoricals it is. get the encoding of that categorical. concat it to that row.
 
@@ -127,63 +19,29 @@ encode ::    [String] ->           [(int, [String])]       ->  [String]
 --    Will the categoricals in the "key" argument be passed in as a new data type that we've defined or as an actual list like they're shown above. again, keep it simple for now, no custom data type, just pass them in like that every time.
 --    How do we know what the "index" in "key" is? I guess we'll just assume it's always 2 in this problem.
 
+{-  Test Data
+let row1     = (110, 210, "Left")
+let row2     = (120, 220, "Middle")
+let rows     = row1:row2:[]
+let rows_rev = row2:row1:[]
+
+encode rows [(999, ["n/a"])]
 
 
+-}
 
 
-
-myreverse :: [a] -> [a]
-myreverse [] = []
-myreverse [x] = [x]
-myreverse (x:xs) = (myreverse xs) ++ [x]
-
-
--- --           row                 key                   result
--- encode :: [a, a , b]   ->   (n, [s, s, s])   ->   [a, a, x, x, x]
--- encode _ _ = [100, 200, 1, 0, 0]
-
--- a: it looks like their ints but let's not assume that. It looks like we can assume they are the same type.
--- b: definitely not the same type as the first two elements in the row. I think we can make that a string for now.
--- n: probably also an int. we know it's an index for row so, yes, it's an int.
--- s: I keep wondering if defining a data type for this will make it easier right now and if by using strings and being verbose like this it will make it harder to get this first solution running.
--- a: these are the same guys that came in in row so we're just passing them along.
--- x: probably ints but let's not assume that.
-
-------------- ok. let's see if that will compile.
-------------- it doesn't. back to simple.
-
-
--- encode :: (Num a, Num x) => [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
--- encode _ _ = [(100, 200, 1, 0, 0)]
-
--- ok. this compiles, but i don't like how I had to add the type classes
---- holy ....! It runs too!
-
-
--- k. next little baby step
--- encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
--- encode [] [] = []
--- encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
-
-
-
-
--- -- but it can only handle one row in the list of rows
--- encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
--- encode [] [] = []
--- encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
--- encode [row:rows] _ = encoderow row : encoderows rows
-
--- Why doesn't the signature "encoderow :: (Num a, Num b, String s) => (a,a,s) -> (a,a,b,b,b)" compile?
--- http://stackoverflow.com/questions/39601008/why-can-string-not-be-used-in-a-constraint
--- String is a type. Constraints only involve classes, not types.
+-- ****** The key is not being passed to the helper functions right now
+encode :: [(Int, Int, String)]   ->   [(Int, [String])]   ->   [(Int, Int, Int, Int, Int)]
+encode [] []  = []
+encode [] _   = error "I have encoding keys but no rows."
+encode _ []   = error "I rows of data but no encoding keys."
+encode (row:rows) _ = encoderow row : encoderows rows
 
 encoderow :: (Int, Int, String) -> (Int, Int, Int, Int, Int)
 encoderow     (i1, i2, str)   =   (i1, i2, (encodedCat !! 0), (encodedCat !! 1), (encodedCat !! 2))
    where encodedCat = encodeCat str
 
--- I had this returning a triple but I don't know how to merge two tuples (the pair in encoderow and the returned value from this function)
--- So I changed it to return [Int, Int, Int]. That didn't compile. It should be [Int].
 encodeCat :: String -> [Int]
 encodeCat "Left"   = [1, 0, 0]
 encodeCat "Middle" = [0, 1, 0]
