@@ -178,12 +178,6 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 -- http://stackoverflow.com/questions/39601008/why-can-string-not-be-used-in-a-constraint
 -- String is a type. Constraints only involve classes, not types.
 
--- encoderow :: (Num a) => (a,a,String) -> (a,a,a,a,a) -------- This works. Now let's get the encoding of the categorical in there
--- encoderow     (i1,i2,str)   =   (i1, i2, 1, 0, 0)
-
--- encoderows :: (Num a) [(a, a, b)] -> [()]
--- encoderows _ = [(99, 999, 9999)]
-
 encoderow :: (Num a) => (a,a,String) -> (a,a,Int,Int,Int)
 encoderow     (i1,i2,str)   =   (i1, i2, (encodedCat !! 0), (encodedCat !! 1), (encodedCat !! 2))
    where encodedCat = encodeCat str
@@ -194,6 +188,9 @@ encodeCat :: String -> [Int]
 encodeCat "Left"   = [1, 0, 0]
 encodeCat "Middle" = [0, 1, 0]
 encodeCat "Right"  = [0, 0, 1]
+
+-- encoderows :: (Num a) [(a, a, b)] -> [()]
+-- encoderows _ = [(99, 999, 9999)]
 
 
 
