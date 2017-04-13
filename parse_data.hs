@@ -178,8 +178,8 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 -- http://stackoverflow.com/questions/39601008/why-can-string-not-be-used-in-a-constraint
 -- String is a type. Constraints only involve classes, not types.
 
-encoderow :: (Num a) => (a,a,String) -> (a,a,Int,Int,Int)
-encoderow     (i1,i2,str)   =   (i1, i2, (encodedCat !! 0), (encodedCat !! 1), (encodedCat !! 2))
+encoderow :: (Int, Int, String) -> (Int, Int, Int, Int, Int)
+encoderow     (i1, i2, str)   =   (i1, i2, (encodedCat !! 0), (encodedCat !! 1), (encodedCat !! 2))
    where encodedCat = encodeCat str
 
 -- I had this returning a triple but I don't know how to merge two tuples (the pair in encoderow and the returned value from this function)
@@ -189,8 +189,10 @@ encodeCat "Left"   = [1, 0, 0]
 encodeCat "Middle" = [0, 1, 0]
 encodeCat "Right"  = [0, 0, 1]
 
--- encoderows :: (Num a) [(a, a, b)] -> [()]
--- encoderows _ = [(99, 999, 9999)]
+encoderows ::  [(Int, Int, String)]   ->   [(Int, Int, Int, Int, Int)]
+encoderows []     = []
+encoderows (x:[]) = encoderow x : []
+encoderows (x:xs) = encoderow x : encoderows xs
 
 
 
