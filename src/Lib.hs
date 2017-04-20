@@ -1,3 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+
+module Lib
+    ( encodeDataset
+    , encodeRow
+    ) where
+
+import qualified Data.Map.Strict as M
+
 --Cat = Left | Middle | Right
 
 
@@ -168,37 +177,29 @@ myreverse (x:xs) = (myreverse xs) ++ [x]
 
 
 
--- -- but it can only handle one row in the list of rows
+-- but it can only handle one row in the list of rows
 -- encode :: (Num a, Num x)   =>    [(a, a , b)]   ->   [(n, [s])]   ->   [(a, a, x, x, x)]
 -- encode [] [] = []
 -- encode [(v1, v2, catVal)] _ = [(v1, v2, 1, 0, 0)]
--- encode [row:rows] _ = encoderow row : encoderows rows
+-- encode [row:rows] _ = encoderow row : encoderows rows    ---------   my thoughts for now (doesn't seem right but it's a starting point) ----- we'll pick up here tomorrow
 
--- Why doesn't the signature "encoderow :: (Num a, Num b, String s) => (a,a,s) -> (a,a,b,b,b)" compile?
--- http://stackoverflow.com/questions/39601008/why-can-string-not-be-used-in-a-constraint
--- String is a type. Constraints only involve classes, not types.
+encodeDataset :: [[String]] -> M.Map Int [String] -> [[String]]
+encodeDataset dataset encodings = map (encodeRow encodings) dataset
 
-encoderow :: (Int, Int, String) -> (Int, Int, Int, Int, Int)
-encoderow     (i1, i2, str)   =   (i1, i2, (encodedCat !! 0), (encodedCat !! 1), (encodedCat !! 2))
-   where encodedCat = encodeCat str
-
--- I had this returning a triple but I don't know how to merge two tuples (the pair in encoderow and the returned value from this function)
--- So I changed it to return [Int, Int, Int]. That didn't compile. It should be [Int].
-encodeCat :: String -> [Int]
-encodeCat "Left"   = [1, 0, 0]
-encodeCat "Middle" = [0, 1, 0]
-encodeCat "Right"  = [0, 0, 1]
-
-encoderows ::  [(Int, Int, String)]   ->   [(Int, Int, Int, Int, Int)]
-encoderows []     = []
-encoderows (x:[]) = encoderow x : []
-encoderows (x:xs) = encoderow x : encoderows xs
+encodeRow :: M.Map Int [String] -- This is the same as [(Int, [String])] except it is easier to work with
+          -> [String]           -- input row
+          -> [String]           -- output row with encoded categoricals
+encodeRow encodings row =
+  let indexedRow = zip [0..] row -- hint add an index to each element so you know what index you are on when you map over it
+  in go indexedRow encodings []
+  where
+    go :: undefined
+    go = undefined
 
 
-
-
-
-
-
-
--- .
+-- for this input
+-- let row1 = (110, 210, "Left")
+-- let row2 = (120, 220, "Middle")
+--             vvv
+-- i need this output
+-- [(110, 210, ...), (120, 220, "Middle")]
