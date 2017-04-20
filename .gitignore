@@ -23,3 +23,7 @@ docker-compose.yml
 /target/
 Cargo.lock
 **/*.rs.bk
+
+versions of encoderow that didn't work.hs
+.DS_Store
+
