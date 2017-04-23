@@ -1,0 +1,120 @@
+
+
+doing the first test, encodeRow SIMPLE
+
+what is this "go"?
+http://stackoverflow.com/questions/5844653/haskell-why-the-convention-to-name-a-helper-function-go
+
+I have an idea of what to do but I'm not exactly sure. Let's try something (put some types in for the args and return for encodeRow::go) and see what the compiler says.
+
+syntax error. the go function has one additional arg, the empty list, the accumulator
+
+i'm stuck (analysis paralysis). is the simple test too simple? Putting the simple test aside and switching to the complete test.
+
+------------ OK, we've got this figured out: --------------------
+Prelude> M.fromList [(0, ["left", "right", "middle"])] M.! 0
+["left","right","middle"]
+Prelude> (M.fromList [(0, ["left", "right", "middle"])] M.! 0) !! 0
+"left"
+Prelude> (M.fromList [(0, ["left", "right", "middle"])] M.! 0) !! 1
+"right"
+---------------- That's pretty ugly though.
+
+
+
+
+-------------- And this is good ---------------------
+Prelude> M.member   3   (M.fromList [(0, ["left", "middle", "right"]), (2, ["left", "middle", "right"])] )
+False
+Prelude> M.member   0   (M.fromList [(0, ["left", "middle", "right"]), (2, ["left", "middle", "right"])] )
+True
+
+
+
+"It's a common idiom to make a function and define some helper function in its where clause and then to give those functions helper functions as well, each with its own where clause."
+LYAH
+
+
+
+Got caught up with the signature of encodeRow::go -- left out the arrows.
+
+
+I've hardcoded the answer for the simple test into Lib.hs. The test passes. Now let's write some code that will return it (or just return anything).
+
+
+
+map over every element in indexedRow... make a partial function with the encodings... [] is the initial accumulator.
+..
+no. there's an accumulator. it's a fold.
+
+
+
+
+-------
+store with Jacque
+--------
+
+
+
+
+
+can't do M.! on indexedRow when we created it as it is in the code (indexedRow = zip [0..] row) but we can if we apply fromList to it.
+
+M.fromList [(0, ["left", "right", "middle"])] M.! 0
+
+
+
+
+
+did all that confusion just come from having the args in the wrong order?
+
+
+
+folds return single/individual results. we need map
+
+
+no. fold can return data structures.
+rev :: [a] -> [a]
+rev xs = foldl (\acc x -> x:acc) [] xs
+-------- ok. let's build on that -------------
+
+
+
+
+
+can't do fst indexedRow, it's not a pair
+
+how do i get the key from indexedRow??
+
+
+When a map from Data.Map is displayed on the terminal, it’s shown as fromList and then an association list that represents the map, even though it’s not a list anymore.
+LYAH
+
+
+finally! ok, the problem that was keeping from getting the key (index) of the current element in the row was that I shouldn't have applied fromList, just leave them as a list of pairs.
+
+
+
+
+
+
+alright. I've built out encodeRow::go and encodeElement. Let's see how this goes.
+what!? it loaded without errors.
+ok. that's more like it. I loaded a different file I was practicing with.
+
+haha! ok. now it's compiling!
+
+And it works!? Wow.
+
+Monday night: clean it up, make it pretty.
+
+
+
+
+
+
+
+
+
+
+.
