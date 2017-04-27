@@ -3,6 +3,7 @@
 module Lib
     ( encodeDataset
     , encodeRow
+    , encodeBit
     ) where
 
 import qualified Data.Map.Strict as M
@@ -18,7 +19,8 @@ encodeRow encodings row =
   in go indexedRow encodings []
   where
     go :: [(Int, String)] -> M.Map Int [String] -> [String] -> [String]
-    go indexedRow encodings acc = foldl (\acc rowElem -> acc ++ encodeElement rowElem encodings) acc indexedRow
+    go indexedRow encodings acc = foldl (\acc rowElem -> acc ++ encodeElement rowElem encodings) acc indexedRow    
+--leaving this lambda. in actual prodution code i'd replace it because I replaced the other one. It's 11:30 pm and I'm struggling to think so I need to stick to the important refactorings.
 
 
 --TODO ++ is okay here because our lists are small but it's not performant for large lists. can we use foldr and : instead? 
@@ -27,21 +29,21 @@ encodeRow encodings row =
 --pulled out the whole lambda, made a function that does that calculation *and* made a partially applied version of it.
 encodeElement :: (Int, String) -> M.Map Int [String] -> [String]
 encodeElement rowElem mappedEncodings
-  | idx `M.member` mappedEncodings = foldl theFoldFunction' [] encodings
-  | otherwise                      = [val]
+  | idx `M.member` mappedEncodings = foldr theFoldFunction' encodings []
+  | otherwise                      = [rowElemValue]
   where idx              = fst rowElem
-        val              = snd rowElem
+        rowElemValue     = snd rowElem
         encodings        = mappedEncodings M.! idx
-        theFoldFunction' = theFoldFunction val
+        theFoldFunction' = theFoldFunction rowElemValue
 
 
 --TODO can [String] be changed to [a]? IIRC the compiler will see that it's always a String that's passed in and it will complain. Maybe it's only a warning.
 --since there's only one function body are the types even needed? 
 --yay! we got to show off 'let'!
-theFoldFunction :: String -> [String] -> String -> [String]
-theFoldFunction rowElemValue acc encoding =
-  let encoded = encodeBit rowElemValue encoding
-  in acc ++ [encoded]
+theFoldFunction :: String -> String -> [String] -> [String]
+theFoldFunction rowElemValue encoding acc =
+  let encoded = (encodeBit rowElemValue encoding)
+  in (encoded : acc)
 
 
 --TODO There's *got* to be a much much more succinct way of doing this

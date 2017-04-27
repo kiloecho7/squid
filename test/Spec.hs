@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import qualified Data.Map.Strict as M
-import           Lib (encodeDataset, encodeRow)
+import           Lib (encodeDataset, encodeRow, encodeBit)
 import           Test.Hspec
 import           Test.Tasty
 import           Test.Tasty.Hspec
@@ -53,6 +53,19 @@ spec = do
           expectedRow = ["1", "0", "0", "100", "0", "1", "0", "100", "200"]
 
       encodeRow encodings inputRow `shouldBe` expectedRow
+
+  describe "encodeBit" $ do
+    it "returns 1 because the value matches the encoding" $ do
+      let value = "left"
+          encoding = "left"
+          expected = "1"
+      encodeBit value encoding `shouldBe` expected
+
+    it "returns 0 because the value doesn't match the encoding" $ do
+      let value = "left"
+          encoding = "right"
+          expected = "0"
+      encodeBit value encoding `shouldBe` expected
 
 encodingSpec :: IO TestTree
 encodingSpec = testSpec "Encoding Spec" spec
